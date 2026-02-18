@@ -25,7 +25,29 @@ function PaymentContent() {
         setStatus("processing");
 
         // Simulate API call
-        setTimeout(() => {
+        setTimeout(async () => {
+            try {
+                // Get user from localStorage
+                const storedUser = localStorage.getItem('konebd_user');
+                if (storedUser) {
+                    const user = JSON.parse(storedUser);
+
+                    // Call backend to update premium status
+                    const res = await fetch('/api/payment/success', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ mobile: user.mobile }),
+                    });
+
+                    if (res.ok) {
+                        // Update local user state
+                        const updatedUser = { ...user, isPremium: true };
+                        localStorage.setItem('konebd_user', JSON.stringify(updatedUser));
+                    }
+                }
+            } catch (error) {
+                console.error("Payment update failed", error);
+            }
             setStatus("success");
         }, 2000);
     };

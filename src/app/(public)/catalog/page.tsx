@@ -64,6 +64,19 @@ export default function Catalog() {
         );
     }
 
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('konebd_user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    // ... (rest of useEffect for fetching profiles)
+
+    const isPremium = user?.isPremium;
+
     return (
         <div className="section" onContextMenu={(e) => e.preventDefault()}> {/* Disable Right Click */}
             <div className="container">
@@ -78,7 +91,29 @@ export default function Catalog() {
                                 {/* Image Placeholder with Watermark */}
                                 <div style={{ height: "250px", background: "#ddd", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                                     {profile.image ? (
-                                        <img src={profile.image} alt={profile.id} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                        <>
+                                            <img
+                                                src={profile.image}
+                                                alt={profile.id}
+                                                style={{
+                                                    width: "100%",
+                                                    height: "100%",
+                                                    objectFit: "cover",
+                                                    filter: isPremium ? "none" : "blur(15px)", // Blur if not premium
+                                                    transition: "filter 0.3s ease"
+                                                }}
+                                            />
+                                            {!isPremium && (
+                                                <div style={{
+                                                    position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+                                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                                    background: "rgba(0,0,0,0.3)", flexDirection: "column"
+                                                }}>
+                                                    <span style={{ color: "white", fontWeight: "bold", fontSize: "1.2rem", textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>🔒 Premium Only</span>
+                                                    <a href="/#pricing" className="btn btn-primary" style={{ marginTop: "0.5rem", fontSize: "0.8rem", padding: "0.25rem 0.5rem" }}>Upgrade Now</a>
+                                                </div>
+                                            )}
+                                        </>
                                     ) : (
                                         <>
                                             <span style={{ fontSize: "4rem" }}>👩</span>

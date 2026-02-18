@@ -30,7 +30,8 @@ export async function POST(request: Request) {
             user: {
                 id: user.id,
                 mobile: user.mobile,
-                isAdmin: false // Can add role later
+                isAdmin: false,
+                isPremium: user.isPremium || false
             }
         });
 

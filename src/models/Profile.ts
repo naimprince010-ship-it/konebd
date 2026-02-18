@@ -25,6 +25,10 @@ const ProfileSchema = new mongoose.Schema({
         required: [true, 'Please provide a security answer'],
         select: false,
     },
+    isPremium: {
+        type: Boolean,
+        default: false,
+    },
     age: {
         type: Number,
         required: false, // Optional for signup
