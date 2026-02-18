@@ -41,6 +41,35 @@ export default function Catalog() {
         fetchProfiles();
     }, []);
 
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('konebd_user');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUser(parsedUser);
+
+            // Sync with server to check for approval
+            if (parsedUser.mobile) {
+                fetch('/api/auth/status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobile: parsedUser.mobile })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        // Update if status changed
+                        if (data.isPremium !== undefined && data.isPremium !== parsedUser.isPremium) {
+                            const updatedUser = { ...parsedUser, isPremium: data.isPremium };
+                            setUser(updatedUser);
+                            localStorage.setItem('konebd_user', JSON.stringify(updatedUser));
+                        }
+                    })
+                    .catch(err => console.error("Failed to sync status", err));
+            }
+        }
+    }, []);
+
     const toggleShortlist = (id: string) => {
         setShortlist((prev) =>
             prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
@@ -102,35 +131,6 @@ export default function Catalog() {
             </div>
         );
     }
-
-    const [user, setUser] = useState<any>(null);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem('konebd_user');
-        if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            setUser(parsedUser);
-
-            // Sync with server to check for approval
-            if (parsedUser.mobile) {
-                fetch('/api/auth/status', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ mobile: parsedUser.mobile })
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        // Update if status changed
-                        if (data.isPremium !== undefined && data.isPremium !== parsedUser.isPremium) {
-                            const updatedUser = { ...parsedUser, isPremium: data.isPremium };
-                            setUser(updatedUser);
-                            localStorage.setItem('konebd_user', JSON.stringify(updatedUser));
-                        }
-                    })
-                    .catch(err => console.error("Failed to sync status", err));
-            }
-        }
-    }, []);
 
     // ... (rest of useEffect for fetching profiles)
 
