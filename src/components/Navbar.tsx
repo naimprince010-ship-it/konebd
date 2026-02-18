@@ -45,9 +45,9 @@ export default function Navbar() {
     return (
         <nav style={{ padding: '1rem 0', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', background: 'white', position: 'sticky', top: 0, zIndex: 50 }}>
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Link href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none' }}>KoneBd</Link>
+                <Link href={user ? "/catalog" : "/"} style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none' }}>KoneBd</Link>
                 <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <Link href="/" style={{ color: '#374151', textDecoration: 'none' }}>Home</Link>
+                    <Link href={user ? "/catalog" : "/"} style={{ color: '#374151', textDecoration: 'none' }}>Home</Link>
                     <Link href="/catalog" style={{ color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Catalog</Link>
                     <Link href="/about" style={{ color: '#374151', textDecoration: 'none' }}>About</Link>
                     <Link href="/contact" style={{ color: '#374151', textDecoration: 'none' }}>Contact</Link>
