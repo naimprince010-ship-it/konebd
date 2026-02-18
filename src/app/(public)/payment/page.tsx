@@ -29,27 +29,33 @@ function PaymentContent() {
             try {
                 // Get user from localStorage
                 const storedUser = localStorage.getItem('konebd_user');
-                if (storedUser) {
-                    const user = JSON.parse(storedUser);
+                const user = storedUser ? JSON.parse(storedUser) : null;
 
-                    // Call backend to update premium status
-                    const res = await fetch('/api/payment/success', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ mobile: user.mobile }),
-                    });
+                // Submit payment for verification
+                const res = await fetch('/api/payment/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userMobile: user?.mobile || 'Unknown',
+                        bkashNumber,
+                        trxId,
+                        amount: price || '500' // Default if not found
+                    }),
+                });
 
-                    if (res.ok) {
-                        // Update local user state
-                        const updatedUser = { ...user, isPremium: true };
-                        localStorage.setItem('konebd_user', JSON.stringify(updatedUser));
-                    }
+                if (res.ok) {
+                    setStatus("success");
+                } else {
+                    const data = await res.json();
+                    alert("Payment submission failed: " + data.error);
+                    setStatus("error");
                 }
+
             } catch (error) {
-                console.error("Payment update failed", error);
+                console.error("Payment submission failed", error);
+                setStatus("error");
             }
-            setStatus("success");
-        }, 2000);
+        }, 1500);
     };
 
     if (status === "success") {
@@ -64,9 +70,9 @@ function PaymentContent() {
                     margin: "0 auto"
                 }}>
                     <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>✅</div>
-                    <h2 className="text-primary mb-4">Payment Successful!</h2>
-                    <p className="mb-6">Thank you for purchasing the <strong>{plan}</strong> package.</p>
-                    <p className="text-muted mb-8">Your account will be upgraded shortly.</p>
+                    <h2 className="text-primary mb-4">Payment Under Review!</h2>
+                    <p className="mb-6">We have received your payment details for <strong>{plan}</strong> package.</p>
+                    <p className="text-muted mb-8">Admin will verify your transaction shortly (avg. 30 mins).</p>
                     <Link href="/catalog" className="btn btn-primary">
                         Browse Profiles
                     </Link>

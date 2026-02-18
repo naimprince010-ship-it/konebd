@@ -81,81 +81,87 @@ export default function Admin() {
                         >
                             Profile Management
                         </button>
-                    </li>
-                    <li style={{ marginTop: "2rem", borderTop: "1px solid #374151", paddingTop: "1rem" }}>
-                        <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: "1rem", display: "block", marginBottom: "1rem" }}>
-                            ← Back to Home
-                        </a>
-                        <button
-                            onClick={handleLogout}
-                            style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "1rem", textAlign: "left", padding: 0 }}
-                        >
-                            Logout
-                        </button>
-                    </li>
-                </ul>
-            </div>
-
-            {/* Main Content */}
-            <div style={{ flex: 1, padding: "2rem", background: "#f3f4f6" }}>
-                {activeTab === "dashboard" && (
-                    <>
-                        <h1 className="mb-8">Admin Dashboard</h1>
-
-                        <div className="grid grid-cols-1 grid-cols-3-md mb-8">
-                            <div style={{ background: "white", padding: "2rem", borderRadius: "1rem", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
-                                <h3>Total Users</h3>
-                                <p style={{ fontSize: "2rem", color: "var(--primary)", fontWeight: "bold" }}>152</p>
-                            </div>
-                            <div style={{ background: "white", padding: "2rem", borderRadius: "1rem", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
-                                <h3>New Submissions</h3>
-                                <p style={{ fontSize: "2rem", color: "var(--primary)", fontWeight: "bold" }}>5</p>
-                            </div>
-                            <div style={{ background: "white", padding: "2rem", borderRadius: "1rem", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
-                                <h3>Revenue (This Month)</h3>
-                                <p style={{ fontSize: "2rem", color: "var(--primary)", fontWeight: "bold" }}>12,500 TK</p>
-                            </div>
-                        </div>
-
-                        <h2 className="mb-4">Recent Match Requests</h2>
-                        <div style={{ background: "white", borderRadius: "1rem", overflow: "hidden", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
-                            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
-                                <thead style={{ background: "#f9fafb" }}>
-                                    <tr>
-                                        <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>User Phone</th>
-                                        <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Selected IDs</th>
-                                        <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Status</th>
-                                        <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {submissions.map((sub) => (
-                                        <tr key={sub.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                                            <td style={{ padding: "1rem" }}>{sub.user}</td>
-                                            <td style={{ padding: "1rem" }}>{sub.selected.join(", ")}</td>
-                                            <td style={{ padding: "1rem" }}>
-                                                <span style={{
-                                                    background: sub.status === "Pending" ? "#fef3c7" : "#d1fae5",
-                                                    color: sub.status === "Pending" ? "#d97706" : "#059669",
-                                                    padding: "0.25rem 0.5rem", borderRadius: "1rem", fontSize: "0.875rem"
-                                                }}>
-                                                    {sub.status}
-                                                </span>
-                                            </td>
-                                            <td style={{ padding: "1rem" }}>
-                                                <button className="btn" style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem", border: "1px solid #d1d5db" }}>View</button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </>
-                )}
-
-                {activeTab === "profiles" && <ProfileManager />}
-            </div>
+                    </button>
+                </li>
+                <li style={{ marginBottom: "1rem" }}>
+                    <a href="/admin/payments" style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: "1.1rem", textDecoration: "none" }}>
+                        Payments
+                    </a>
+                </li>
+                <li style={{ marginTop: "2rem", borderTop: "1px solid #374151", paddingTop: "1rem" }}>
+                    <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: "1rem", display: "block", marginBottom: "1rem" }}>
+                        ← Back to Home
+                    </a>
+                    <button
+                        onClick={handleLogout}
+                        style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "1rem", textAlign: "left", padding: 0 }}
+                    >
+                        Logout
+                    </button>
+                </li>
+            </ul>
         </div>
+
+            {/* Main Content */ }
+    <div style={{ flex: 1, padding: "2rem", background: "#f3f4f6" }}>
+        {activeTab === "dashboard" && (
+            <>
+                <h1 className="mb-8">Admin Dashboard</h1>
+
+                <div className="grid grid-cols-1 grid-cols-3-md mb-8">
+                    <div style={{ background: "white", padding: "2rem", borderRadius: "1rem", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
+                        <h3>Total Users</h3>
+                        <p style={{ fontSize: "2rem", color: "var(--primary)", fontWeight: "bold" }}>152</p>
+                    </div>
+                    <div style={{ background: "white", padding: "2rem", borderRadius: "1rem", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
+                        <h3>New Submissions</h3>
+                        <p style={{ fontSize: "2rem", color: "var(--primary)", fontWeight: "bold" }}>5</p>
+                    </div>
+                    <div style={{ background: "white", padding: "2rem", borderRadius: "1rem", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
+                        <h3>Revenue (This Month)</h3>
+                        <p style={{ fontSize: "2rem", color: "var(--primary)", fontWeight: "bold" }}>12,500 TK</p>
+                    </div>
+                </div>
+
+                <h2 className="mb-4">Recent Match Requests</h2>
+                <div style={{ background: "white", borderRadius: "1rem", overflow: "hidden", boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+                        <thead style={{ background: "#f9fafb" }}>
+                            <tr>
+                                <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>User Phone</th>
+                                <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Selected IDs</th>
+                                <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Status</th>
+                                <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {submissions.map((sub) => (
+                                <tr key={sub.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                                    <td style={{ padding: "1rem" }}>{sub.user}</td>
+                                    <td style={{ padding: "1rem" }}>{sub.selected.join(", ")}</td>
+                                    <td style={{ padding: "1rem" }}>
+                                        <span style={{
+                                            background: sub.status === "Pending" ? "#fef3c7" : "#d1fae5",
+                                            color: sub.status === "Pending" ? "#d97706" : "#059669",
+                                            padding: "0.25rem 0.5rem", borderRadius: "1rem", fontSize: "0.875rem"
+                                        }}>
+                                            {sub.status}
+                                        </span>
+                                    </td>
+                                    <td style={{ padding: "1rem" }}>
+                                        <button className="btn" style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem", border: "1px solid #d1d5db" }}>View</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </>
+        )}
+
+        {activeTab === "profiles" && <ProfileManager />}
+    </div>
+        </div >
     );
 }
 
