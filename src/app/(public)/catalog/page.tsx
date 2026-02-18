@@ -47,19 +47,58 @@ export default function Catalog() {
         );
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (shortlist.length === 0) return alert("Please select at least one profile.");
-        setSubmitted(true);
-        // Here you would send the data to your backend
-        console.log("Submitted IDs:", shortlist);
+
+        if (!user || !user.mobile) {
+            alert("Please login to submit your selection.");
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/match/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    mobile: user.mobile,
+                    selectedIds: shortlist
+                }),
+            });
+
+            if (res.ok) {
+                setSubmitted(true);
+            } else {
+                const data = await res.json();
+                alert("Submission failed: " + data.error);
+            }
+        } catch (error) {
+            console.error("Submission error", error);
+            alert("Something went wrong. Please try again.");
+        }
     };
 
     if (submitted) {
         return (
-            <div className="container section text-center">
-                <h1 className="text-primary mb-4">Submission Successful!</h1>
-                <p>We have received your preferences. We will contact you shortly.</p>
-                <p className="mt-4">Selected IDs: {shortlist.join(", ")}</p>
+            <div className="container section text-center" style={{ padding: "4rem 1rem" }}>
+                <div style={{
+                    background: "white",
+                    padding: "3rem",
+                    borderRadius: "1rem",
+                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+                    maxWidth: "500px",
+                    margin: "0 auto"
+                }}>
+                    <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>✅</div>
+                    <h1 className="text-primary mb-4">Request Sent!</h1>
+                    <p className="mb-6">We have received your interest in <strong>{shortlist.length}</strong> profiles.</p>
+                    <p className="text-muted mb-8">Our team will contact you shortly.</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="btn btn-primary"
+                    >
+                        Browse More
+                    </button>
+                </div>
             </div>
         );
     }
