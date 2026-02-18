@@ -18,10 +18,17 @@ export default function DemoProfiles() {
         const fetchProfiles = async () => {
             try {
                 const res = await fetch('/api/profiles');
+                if (!res.ok) throw new Error('Failed to fetch profiles');
                 const data = await res.json();
-                setProfiles(data.slice(0, 8)); // Valid for now as we just want the first 8
+
+                if (Array.isArray(data)) {
+                    setProfiles(data.slice(0, 8));
+                } else {
+                    setProfiles([]);
+                }
             } catch (error) {
                 console.error("Failed to fetch profiles", error);
+                setProfiles([]);
             }
         };
 

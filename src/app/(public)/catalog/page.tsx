@@ -21,10 +21,18 @@ export default function Catalog() {
         const fetchProfiles = async () => {
             try {
                 const res = await fetch('/api/profiles');
+                if (!res.ok) throw new Error('Failed to fetch profiles');
                 const data = await res.json();
-                setProfiles(data);
+
+                if (Array.isArray(data)) {
+                    setProfiles(data);
+                } else {
+                    console.error("Data is not an array:", data);
+                    setProfiles([]);
+                }
             } catch (error) {
                 console.error("Failed to fetch profiles", error);
+                setProfiles([]); // Ensure profiles is always an array
             } finally {
                 setLoading(false);
             }
