@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function PublicLayout({
     children,
 }: {
@@ -7,14 +9,14 @@ export default function PublicLayout({
         <>
             <nav style={{ padding: '1rem 0', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', background: 'white', position: 'sticky', top: 0, zIndex: 50 }}>
                 <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <a href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none' }}>KoneBd</a>
+                    <Link href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none' }}>KoneBd</Link>
                     <div style={{ display: 'flex', gap: '1.5rem' }}>
-                        <a href="/" style={{ color: '#374151', textDecoration: 'none' }}>Home</a>
-                        <a href="/catalog" style={{ color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Catalog</a>
-                        <a href="/about" style={{ color: '#374151', textDecoration: 'none' }}>About</a>
-                        <a href="/contact" style={{ color: '#374151', textDecoration: 'none' }}>Contact</a>
+                        <Link href="/" style={{ color: '#374151', textDecoration: 'none' }}>Home</Link>
+                        <Link href="/catalog" style={{ color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Catalog</Link>
+                        <Link href="/about" style={{ color: '#374151', textDecoration: 'none' }}>About</Link>
+                        <Link href="/contact" style={{ color: '#374151', textDecoration: 'none' }}>Contact</Link>
                     </div>
-                    <a href="/login" className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}>Login</a>
+                    <Link href="/login" className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem', textDecoration: 'none' }}>Login</Link>
                 </div>
             </nav>
             {children}

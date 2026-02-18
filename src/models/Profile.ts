@@ -3,24 +3,43 @@ import mongoose from 'mongoose';
 const ProfileSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: [true, 'Please provide an ID'],
         unique: true,
+        // ID is optional for new registrations, will be generated
+    },
+    mobile: {
+        type: String,
+        required: [true, 'Please provide a mobile number'],
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: [true, 'Please provide a password'],
+        select: false, // Don't return password by default
+    },
+    securityQuestion: {
+        type: String,
+        required: [true, 'Please select a security question'],
+    },
+    securityAnswer: {
+        type: String,
+        required: [true, 'Please provide a security answer'],
+        select: false,
     },
     age: {
         type: Number,
-        required: [true, 'Please provide an age'],
+        required: false, // Optional for signup
     },
     height: {
         type: String,
-        required: [true, 'Please provide a height'],
+        required: false, // Optional for signup
     },
     education: {
         type: String,
-        required: [true, 'Please provide education details'],
+        required: false, // Optional for signup
     },
     district: {
         type: String,
-        required: [true, 'Please provide a district'],
+        required: false, // Optional for signup
     },
     image: {
         type: String, // Base64 string for now
