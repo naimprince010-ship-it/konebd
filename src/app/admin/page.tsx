@@ -16,11 +16,36 @@ export default function Admin() {
         setLoading(false);
     }, []);
 
-    // Mock User Submissions (In a real app, this would come from a database)
-    const submissions = [
-        { id: 1, user: "01711223344", selected: ["K-102", "K-105"], status: "Pending" },
-        { id: 2, user: "01855667788", selected: ["K-101"], status: "Contacted" },
-    ];
+    const [matchRequests, setMatchRequests] = useState([]);
+
+    useEffect(() => {
+        fetchMatchRequests();
+    }, [activeTab]);
+
+    const fetchMatchRequests = async () => {
+        try {
+            const res = await fetch('/api/admin/match-requests');
+            const data = await res.json();
+            setMatchRequests(data);
+        } catch (error) {
+            console.error("Failed to fetch match requests", error);
+        }
+    };
+
+    const updateMatchStatus = async (id: string, status: string) => {
+        try {
+            const res = await fetch('/api/admin/match-requests', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, status }),
+            });
+            if (res.ok) {
+                fetchMatchRequests();
+            }
+        } catch (error) {
+            console.error("Failed to update status", error);
+        }
+    };
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -134,21 +159,38 @@ export default function Admin() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {submissions.map((sub) => (
-                                        <tr key={sub.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                                            <td style={{ padding: "1rem" }}>{sub.user}</td>
-                                            <td style={{ padding: "1rem" }}>{sub.selected.join(", ")}</td>
+                                    {matchRequests.map((sub: any) => (
+                                        <tr key={sub._id} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                                            <td style={{ padding: "1rem" }}>{sub.userMobile}</td>
+                                            <td style={{ padding: "1rem" }}>{sub.selectedProfileIds.join(", ")}</td>
                                             <td style={{ padding: "1rem" }}>
                                                 <span style={{
-                                                    background: sub.status === "Pending" ? "#fef3c7" : "#d1fae5",
-                                                    color: sub.status === "Pending" ? "#d97706" : "#059669",
+                                                    background: sub.status === "pending" ? "#fef3c7" : (sub.status === "contacted" ? "#d1fae5" : "#e5e7eb"),
+                                                    color: sub.status === "pending" ? "#d97706" : (sub.status === "contacted" ? "#059669" : "#374151"),
                                                     padding: "0.25rem 0.5rem", borderRadius: "1rem", fontSize: "0.875rem"
                                                 }}>
-                                                    {sub.status}
+                                                    {sub.status.charAt(0).toUpperCase() + sub.status.slice(1)}
                                                 </span>
                                             </td>
                                             <td style={{ padding: "1rem" }}>
-                                                <button className="btn" style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem", border: "1px solid #d1d5db" }}>View</button>
+                                                {sub.status === 'pending' && (
+                                                    <button
+                                                        onClick={() => updateMatchStatus(sub._id, 'contacted')}
+                                                        className="btn"
+                                                        style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem", border: "1px solid #d1d5db", background: "#f3f4f6", cursor: 'pointer' }}
+                                                    >
+                                                        Mark Contacted
+                                                    </button>
+                                                )}
+                                                {sub.status === 'contacted' && (
+                                                    <button
+                                                        onClick={() => updateMatchStatus(sub._id, 'resolved')}
+                                                        className="btn"
+                                                        style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem", border: "1px solid #d1d5db", background: "#f3f4f6", cursor: 'pointer' }}
+                                                    >
+                                                        Mark Resolved
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}
