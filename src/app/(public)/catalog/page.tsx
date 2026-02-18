@@ -205,12 +205,46 @@ export default function Catalog() {
                     </div>
                 )}
 
-                <div style={{ position: "fixed", bottom: "2rem", right: "2rem", background: "white", padding: "1rem", borderRadius: "1rem", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", border: "1px solid #e5e7eb" }}>
-                    <p className="mb-2"><strong>Shortlisted:</strong> {shortlist.length}</p>
+                <div className="submission-bar">
+                    <p className="mb-0"><strong>Shortlisted:</strong> {shortlist.length}</p>
                     <button className="btn btn-primary" onClick={handleSubmit}>
                         Submit Selection
                     </button>
                 </div>
+
+                <style jsx>{`
+                    .submission-bar {
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: white;
+                        padding: 1rem;
+                        border-top: 1px solid #e5e7eb;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        z-index: 40;
+                        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                    }
+                    .mb-0 { margin-bottom: 0; }
+
+                    @media (min-width: 768px) {
+                        .submission-bar {
+                            bottom: 2rem;
+                            right: 2rem;
+                            left: auto;
+                            border-radius: 1rem;
+                            border: 1px solid #e5e7eb;
+                            border-top: 1px solid #e5e7eb; /* Reset */
+                            width: auto;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 0.5rem;
+                            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+                        }
+                    }
+                `}</style>
             </div>
         </div>
     );
