@@ -162,7 +162,12 @@ export default function Admin() {
                                     {matchRequests.map((sub: any) => (
                                         <tr key={sub._id} style={{ borderBottom: "1px solid #f3f4f6" }}>
                                             <td style={{ padding: "1rem" }}>{sub.userMobile}</td>
-                                            <td style={{ padding: "1rem" }}>{sub.selectedProfileIds.join(", ")}</td>
+                                            <td style={{ padding: "1rem" }} title={sub.selectedProfileIds.join(", ")}>
+                                                {sub.selectedProfileIds.length > 3
+                                                    ? `${sub.selectedProfileIds.slice(0, 3).join(", ")} +${sub.selectedProfileIds.length - 3} more`
+                                                    : sub.selectedProfileIds.join(", ")
+                                                }
+                                            </td>
                                             <td style={{ padding: "1rem" }}>
                                                 <span style={{
                                                     background: sub.status === "pending" ? "#fef3c7" : (sub.status === "contacted" ? "#d1fae5" : "#e5e7eb"),
