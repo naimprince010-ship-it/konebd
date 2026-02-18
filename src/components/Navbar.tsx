@@ -47,7 +47,7 @@ export default function Navbar() {
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Link href={user ? "/catalog" : "/"} style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none' }}>KoneBd</Link>
                 <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <Link href={user ? "/catalog" : "/"} style={{ color: '#374151', textDecoration: 'none' }}>Home</Link>
+                    {!user && <Link href="/" style={{ color: '#374151', textDecoration: 'none' }}>Home</Link>}
                     <Link href="/catalog" style={{ color: '#374151', textDecoration: 'none', fontWeight: 500 }}>Catalog</Link>
                     <Link href="/about" style={{ color: '#374151', textDecoration: 'none' }}>About</Link>
                     <Link href="/contact" style={{ color: '#374151', textDecoration: 'none' }}>Contact</Link>
