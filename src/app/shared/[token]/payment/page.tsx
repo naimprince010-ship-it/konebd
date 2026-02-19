@@ -12,7 +12,20 @@ export default function SharedLinkPaymentPage() {
     const [bkashNumber, setBkashNumber] = useState("");
     const [trxId, setTrxId] = useState("");
     const [status, setStatus] = useState<"idle" | "processing" | "success" | "error">("idle");
+    const [merchantNumber, setMerchantNumber] = useState("01700000000"); // Default fallback
     const price = "200";
+
+    useEffect(() => {
+        // Fetch dynamic bKash number
+        fetch('/api/admin/settings')
+            .then(res => res.json())
+            .then(data => {
+                if (data.bkashNumber) {
+                    setMerchantNumber(data.bkashNumber);
+                }
+            })
+            .catch(err => console.error("Failed to fetch settings", err));
+    }, []);
 
     const handlePayment = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -98,7 +111,7 @@ export default function SharedLinkPaymentPage() {
                     <div className="mb-8 p-4 bg-gray-50 rounded border border-gray-200 text-sm text-gray-600">
                         <p className="flex justify-between border-b border-gray-200 pb-2 mb-2">
                             <span>Send Money To:</span>
-                            <span className="font-bold text-gray-800">01700000000</span>
+                            <span className="font-bold text-gray-800">{merchantNumber}</span>
                         </p>
                         <p className="flex justify-between">
                             <span>Reference:</span>
