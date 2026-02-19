@@ -5,9 +5,9 @@ import Profile from '@/models/Profile';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request, { params }: { params: { token: string } }) {
+export async function GET(request: Request, context: { params: Promise<{ token: string }> }) {
     try {
-        const token = params.token;
+        const { token } = await context.params;
         if (!token) {
             return NextResponse.json({ error: 'Token is required' }, { status: 400 });
         }
