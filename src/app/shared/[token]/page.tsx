@@ -93,7 +93,7 @@ export default function SharedLinkPage() {
     const { profiles, isPaid, freeLimit } = data;
 
     return (
-        <div className="container mx-auto p-4 pb-24">
+        <div className="container mx-auto p-4 pb-24 max-w-full overflow-x-hidden">
             <header className="mb-8 text-center max-w-2xl mx-auto">
                 <h1 className="text-2xl font-bold mb-2">Curated Matches</h1>
                 <p className="text-gray-600">
