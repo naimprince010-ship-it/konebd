@@ -46,8 +46,9 @@ export default function AdminPayments() {
 
     if (loading) return <div>Loading...</div>;
 
-    return (
 
+    return (
+        <>
             <h1 className="text-2xl font-bold mb-6">Payment Verification</h1>
 
             <div style={{ background: 'white', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
@@ -105,6 +106,6 @@ export default function AdminPayments() {
                     </tbody>
                 </table>
             </div>
-
+        </>
     );
 }
