@@ -112,17 +112,18 @@ export default function SharedLinkPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-sm mx-auto sm:max-w-none">
                 {profiles.map((profile: Profile) => (
                     <div key={profile.id} className={`bg-white rounded-lg shadow-md overflow-hidden relative border border-gray-100 flex flex-col ${profile.isLocked ? 'opacity-90' : ''}`}>
-                        <div className="relative w-full aspect-[3/4] bg-gray-50 flex items-center justify-center">
+                        <div className="relative w-full bg-gray-50 flex items-center justify-center">
                             {profile.image && !profile.isLocked ? (
                                 <Image
                                     src={profile.image}
                                     alt={profile.id}
-                                    fill
-                                    className="object-contain p-1"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    width={0}
+                                    height={0}
+                                    sizes="100vw"
+                                    style={{ width: '100%', height: 'auto' }}
                                 />
                             ) : (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-4 text-center">
+                                <div className="w-full aspect-[3/4] flex flex-col items-center justify-center text-gray-400 p-4 text-center">
                                     <span className="text-4xl mb-2">
                                         {profile.isLocked ? '🔒' : '👤'}
                                     </span>
