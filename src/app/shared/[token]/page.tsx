@@ -110,7 +110,7 @@ export default function SharedLinkPage() {
                             onClick={handleUnlock}
                             className="mt-6 bg-white text-pink-600 px-8 py-3 rounded-full font-bold shadow-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 ring-2 ring-white/50"
                         >
-                            সবগুলো আনলক করুন ({profiles.length})
+                            অল্প ফি দিয়ে সবগুলো বিস্তারিত তথ্য দেখুন
                         </button>
                     )}
                 </div>
