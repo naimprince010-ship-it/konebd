@@ -108,6 +108,11 @@ export default function Admin() {
                         </button>
                     </li>
                     <li style={{ marginBottom: "1rem" }}>
+                        <a href="/admin/shared-links" style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: "1.1rem", textDecoration: "none" }}>
+                            Shared Links
+                        </a>
+                    </li>
+                    <li style={{ marginBottom: "1rem" }}>
                         <a href="/admin/payments" style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: "1.1rem", textDecoration: "none" }}>
                             Payments
                         </a>
