@@ -1,23 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 
-// Reusing Admin Layout components (simplified)
-const AdminLayout = ({ children }: { children: React.ReactNode }) => {
-    return (
-        <div style={{ display: 'flex', minHeight: '100vh' }}>
-            {/* Sidebar */}
-            <div style={{ width: '250px', background: '#1e293b', color: 'white', padding: '1.5rem' }}>
-                <a href="/admin" className="block p-3 mb-2 rounded hover:bg-slate-700">Dashboard</a>
-                <a href="/admin/payments" className="block p-3 mb-2 rounded bg-primary">Payments</a>
-                <button onClick={() => { localStorage.removeItem('adminAuth'); window.location.href = '/admin'; }} className="block w-full text-left p-3 mt-8 text-red-400 hover:text-red-300">Logout</button>
-            </div>
-            {/* Main Content */}
-            <div style={{ flex: 1, padding: '2rem', background: '#f1f5f9' }}>
-                {children}
-            </div>
-        </div>
-    );
-};
+
 
 export default function AdminPayments() {
     const [payments, setPayments] = useState<any[]>([]);
@@ -63,7 +47,7 @@ export default function AdminPayments() {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <AdminLayout>
+
             <h1 className="text-2xl font-bold mb-6">Payment Verification</h1>
 
             <div style={{ background: 'white', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
@@ -121,6 +105,6 @@ export default function AdminPayments() {
                     </tbody>
                 </table>
             </div>
-        </AdminLayout>
+
     );
 }
