@@ -17,12 +17,7 @@ export const metadata: Metadata = {
   description: "Welcome to KoneBd Project",
 };
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
+
 
 export default function RootLayout({
   children,
