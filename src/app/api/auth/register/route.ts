@@ -27,17 +27,20 @@ export async function POST(request: Request) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // 4. Create User (Profile)
         // Generate a sequential ID like K-1, K-2...
-        const Counter = (await import('@/models/Counter')).default;
+        // Find the highest existing ID
+        let nextIdNum = 1;
+        const profiles = await Profile.find({ id: { $regex: /^K-\d+$/ } }).select('id').lean();
+        if (profiles.length > 0) {
+            const ids = profiles.map(p => {
+                const match = p.id.match(/^K-(\d+)$/);
+                return match ? parseInt(match[1], 10) : 0;
+            });
+            const maxId = Math.max(...ids);
+            nextIdNum = maxId + 1;
+        }
 
-        const counter = await Counter.findOneAndUpdate(
-            { id: 'profileId' },
-            { $inc: { seq: 1 } },
-            { new: true, upsert: true }
-        );
-
-        const generatedId = `K-${counter.seq}`;
+        const generatedId = `K-${nextIdNum}`;
 
         const newProfile = await Profile.create({
             id: generatedId,
