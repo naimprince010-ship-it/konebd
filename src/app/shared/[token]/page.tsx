@@ -112,7 +112,7 @@ export default function SharedLinkPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-sm mx-auto sm:max-w-none">
                 {profiles.map((profile: Profile) => (
                     <div key={profile.id} className={`bg-white rounded-lg shadow-md overflow-hidden relative border border-gray-100 flex flex-col ${profile.isLocked ? 'opacity-90' : ''}`}>
-                        <div className="relative h-72 w-full bg-gray-100">
+                        <div className="relative h-56 w-full bg-gray-100">
                             {profile.image && !profile.isLocked ? (
                                 <img
                                     src={profile.image}
