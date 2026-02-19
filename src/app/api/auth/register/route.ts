@@ -28,8 +28,16 @@ export async function POST(request: Request) {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // 4. Create User (Profile)
-        // Generate a random ID like K-123456
-        const generatedId = `K-${Date.now().toString().slice(-6)}`;
+        // Generate a sequential ID like K-1, K-2...
+        const Counter = (await import('@/models/Counter')).default;
+
+        const counter = await Counter.findOneAndUpdate(
+            { id: 'profileId' },
+            { $inc: { seq: 1 } },
+            { new: true, upsert: true }
+        );
+
+        const generatedId = `K-${counter.seq}`;
 
         const newProfile = await Profile.create({
             id: generatedId,

@@ -33,6 +33,7 @@ export default function RegisterPage() {
         }
 
         try {
+            console.log("Submitting registration:", formData);
             const res = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -43,10 +44,11 @@ export default function RegisterPage() {
 
             if (!res.ok) throw new Error(data.error || 'Registration failed');
 
-            alert("সফলভাবে রেজিস্ট্রেশন হয়েছে! এখন লগিন করুন।");
+            alert("সফলভাবে রেজিস্ট্রেশন হয়েছে! আপনার আইডি: " + data.user.id + "। এখন লগিন করুন।");
             router.push('/login');
 
         } catch (err: any) {
+            console.error("Registration failed:", err);
             setError(err.message);
         } finally {
             setLoading(false);
