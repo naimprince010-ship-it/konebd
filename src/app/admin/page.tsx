@@ -219,6 +219,8 @@ function ProfileManager() {
         education: string;
         district: string;
         image?: string;
+        maritalStatus?: string;
+        children?: string;
     }
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -350,6 +352,33 @@ function ProfileManager() {
                         />
                     </div>
                     <div className="mb-4">
+                        <label className="block mb-2">Marital Status</label>
+                        <select
+                            className="w-full p-2 border rounded"
+                            style={{ width: '100%', padding: '0.5rem', border: '1px solid #ddd', borderRadius: '0.25rem' }}
+                            value={formData.maritalStatus || 'Unmarried'}
+                            onChange={e => setFormData({ ...formData, maritalStatus: e.target.value })}
+                        >
+                            <option value="Unmarried">Unmarried</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Widowed">Widowed</option>
+                        </select>
+                    </div>
+                    {formData.maritalStatus && formData.maritalStatus !== 'Unmarried' && (
+                        <div className="mb-4">
+                            <label className="block mb-2">Children (Details)</label>
+                            <input
+                                type="text"
+                                className="w-full p-2 border rounded"
+                                style={{ width: '100%', padding: '0.5rem', border: '1px solid #ddd', borderRadius: '0.25rem' }}
+                                value={formData.children || ''}
+                                onChange={e => setFormData({ ...formData, children: e.target.value })}
+                                placeholder="e.g. 1 Son, 2 Daughters"
+                            />
+                        </div>
+                    )}
+                    <div className="mb-4">
                         <label className="block mb-2">Height</label>
                         <input
                             type="text"
@@ -420,6 +449,7 @@ function ProfileManager() {
                                 <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>ID</th>
                                 <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Image</th>
                                 <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Age</th>
+                                <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Status</th>
                                 <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>District</th>
                                 <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Education</th>
                                 <th style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>Actions</th>
@@ -439,6 +469,7 @@ function ProfileManager() {
                                         )}
                                     </td>
                                     <td style={{ padding: "1rem" }}>{profile.age}</td>
+                                    <td style={{ padding: "1rem" }}>{profile.maritalStatus || 'Unmarried'}</td>
                                     <td style={{ padding: "1rem" }}>{profile.district}</td>
                                     <td style={{ padding: "1rem" }}>{profile.education}</td>
                                     <td style={{ padding: "1rem" }}>

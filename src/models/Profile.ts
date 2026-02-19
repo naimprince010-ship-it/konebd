@@ -49,6 +49,17 @@ const ProfileSchema = new mongoose.Schema({
         type: String, // Base64 string for now
         required: false,
     },
+    maritalStatus: {
+        type: String,
+        required: false,
+        enum: ['Unmarried', 'Married', 'Divorced', 'Widowed'],
+        default: 'Unmarried',
+    },
+    children: {
+        type: String, // e.g. "None", "1 Son", "2 Daughters"
+        required: false,
+        default: 'None',
+    },
 }, {
     timestamps: true,
 });
