@@ -300,11 +300,14 @@ function ProfileManager() {
                     const newProfile = await res.json();
                     setProfiles(prev => [...prev, newProfile]);
                     setIsFormOpen(false);
+                } else {
+                    const errData = await res.json();
+                    throw new Error(errData.error || "Failed to create");
                 }
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error saving profile", error);
-            alert("Failed to save profile");
+            alert("Failed to save profile: " + error.message);
         }
     };
 

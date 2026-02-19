@@ -19,14 +19,29 @@ export async function POST(request: Request) {
         await dbConnect();
         const body = await request.json();
 
-        // Generate ID if not present
+        // Handle ID: Use provided or generate sequential
         if (!body.id) {
-            body.id = `K-${Date.now()}`;
+            const Counter = (await import('@/models/Counter')).default;
+            const counter = await Counter.findOneAndUpdate(
+                { id: 'profileId' },
+                { $inc: { seq: 1 } },
+                { new: true, upsert: true }
+            );
+            body.id = `K-${counter.seq}`;
+        }
+
+        // Handle Missing Auth Fields (for Admin Created Profiles)
+        if (!body.mobile) {
+            body.mobile = `dummy_${body.id}_${Date.now()}`; // Ensure uniqueness
+            body.password = '$2a$10$dummyHashValueForAdminCreatedProfiles'; // Dummy hash
+            body.securityQuestion = 'admin_created';
+            body.securityAnswer = 'admin_created';
         }
 
         const profile = await Profile.create(body);
         return NextResponse.json(profile, { status: 201 });
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to save profile' }, { status: 500 });
+    } catch (error: any) {
+        console.error("Profile Create Error:", error);
+        return NextResponse.json({ error: error.message || 'Failed to save profile' }, { status: 500 });
     }
 }
