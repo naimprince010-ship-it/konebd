@@ -179,16 +179,13 @@ export default function SharedLinkPage() {
                                         </div>
                                         <div className="h-1 w-12 bg-pink-500 rounded-full mb-3"></div>
                                     </div>
-                                    <div className="relative">
+                                    <div>
                                         <input
                                             type="checkbox"
-                                            className="peer appearance-none w-7 h-7 border-2 border-gray-300 rounded-lg checked:bg-pink-500 checked:border-pink-500 transition-all cursor-pointer"
+                                            className="w-6 h-6 accent-pink-600 cursor-pointer rounded-lg border-2 border-gray-300 focus:ring-pink-500 transition-all"
                                             checked={selectedIds.includes(profile.id)}
                                             onChange={() => toggleSelection(profile.id)}
                                         />
-                                        <svg className="absolute top-1.5 left-1.5 w-4 h-4 text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
-                                        </svg>
                                     </div>
                                 </div>
 
