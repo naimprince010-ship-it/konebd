@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function SharedLinkPaymentPage() {
     const params = useParams();
@@ -11,7 +12,7 @@ export default function SharedLinkPaymentPage() {
     const [bkashNumber, setBkashNumber] = useState("");
     const [trxId, setTrxId] = useState("");
     const [status, setStatus] = useState<"idle" | "processing" | "success" | "error">("idle");
-    const price = "200"; // Fixed price for unlocking link (or make dynamic)
+    const price = "200";
 
     const handlePayment = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,16 +44,18 @@ export default function SharedLinkPaymentPage() {
 
     if (status === "success") {
         return (
-            <div className="container mx-auto p-8 text-center max-w-md">
-                <div className="bg-white p-8 rounded-xl shadow-lg">
-                    <div className="text-6xl mb-4">✅</div>
-                    <h2 className="text-2xl font-bold text-green-600 mb-4">Payment Submitted!</h2>
-                    <p className="mb-6 text-gray-600">Please wait for admin verification. This usually takes about 30 minutes.</p>
+            <div className="min-h-screen flex items-center justify-center bg-[#e2136e]/5 font-sans p-4">
+                <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm w-full border-t-8 border-[#e2136e]">
+                    <div className="w-20 h-20 bg-[#e2136e] rounded-full flex items-center justify-center mx-auto mb-6 text-white text-4xl shadow-lg">
+                        ✓
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">পেমেন্ট সফল হয়েছে!</h2>
+                    <p className="text-gray-500 mb-8">অ্যাডমিন ভেরিফিকেশনের জন্য অপেক্ষা করুন।</p>
                     <button
                         onClick={() => router.push(`/shared/${token}`)}
-                        className="btn btn-primary w-full"
+                        className="w-full bg-[#e2136e] text-white font-bold py-3 rounded shadow hover:bg-[#c2105e] transition"
                     >
-                        Back into Profiles
+                        প্রোফাইল দেখুন
                     </button>
                 </div>
             </div>
@@ -60,28 +63,56 @@ export default function SharedLinkPaymentPage() {
     }
 
     return (
-        <div className="container mx-auto p-4 max-w-md py-10">
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div className="bg-pink-600 p-6 text-center text-white">
-                    <h1 className="text-2xl font-bold">Unlock Full Access</h1>
-                    <p className="opacity-90">Pay {price} TK to view all profiles</p>
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center font-sans p-4">
+            <div className="bg-white w-full max-w-md shadow-2xl overflow-hidden rounded-lg">
+                {/* bKash Header */}
+                <div className="bg-[#e2136e] p-4 flex items-center justify-between shadow-md relative z-10">
+                    <div className="flex items-center gap-3">
+                        <div className="bg-white p-1 rounded">
+                            <span className="text-[#e2136e] font-extrabold text-xl px-1">bKash</span>
+                        </div>
+                        <span className="text-white text-sm opacity-90">Payment Gateway</span>
+                    </div>
+                    <div className="text-white text-right">
+                        <p className="text-xs opacity-75">Merchant</p>
+                        <p className="font-bold text-sm">KoneBd.com</p>
+                    </div>
                 </div>
 
-                <div className="p-6">
-                    <div className="mb-6 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg border">
-                        <p>1. Send Money to <strong>01700000000</strong></p>
-                        <p>2. Amount: <strong>{price} TK</strong></p>
-                        <p>3. Reference: <strong>LinkUnlock</strong></p>
-                        <p>4. Enter TrxID below</p>
+                {/* Invoice Section */}
+                <div className="bg-[#fceef5] p-6 border-b border-pink-100 flex items-center gap-4 relative overflow-hidden">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-pink-100 z-10 relative">
+                        <span className="text-3xl">🛒</span>
+                    </div>
+                    <div className="z-10 relative">
+                        <p className="text-gray-500 text-xs uppercase tracking-wide">Invoice Amount</p>
+                        <p className="text-2xl font-bold text-gray-800">৳ {price}.00</p>
+                        <p className="text-xs text-pink-600 font-medium">Link Unlock Fee</p>
+                    </div>
+                    {/* Decorational Circle */}
+                    <div className="absolute -right-6 -bottom-10 w-32 h-32 bg-[#e2136e]/5 rounded-full blur-2xl"></div>
+                </div>
+
+                {/* Form Section */}
+                <div className="p-8">
+                    <div className="mb-8 p-4 bg-gray-50 rounded border border-gray-200 text-sm text-gray-600">
+                        <p className="flex justify-between border-b border-gray-200 pb-2 mb-2">
+                            <span>Send Money To:</span>
+                            <span className="font-bold text-gray-800">01700000000</span>
+                        </p>
+                        <p className="flex justify-between">
+                            <span>Reference:</span>
+                            <span className="font-bold text-gray-800">LinkUnlock</span>
+                        </p>
                     </div>
 
-                    <form onSubmit={handlePayment} className="space-y-4">
+                    <form onSubmit={handlePayment} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium mb-1">Your bKash Number</label>
+                            <label className="block text-gray-700 text-sm font-bold mb-2">আপনার বিকাশ নম্বর</label>
                             <input
                                 type="text"
-                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-pink-500 outline-none"
-                                placeholder="017xxxxxxxx"
+                                className="w-full text-center text-lg p-3 border-b-2 border-gray-300 focus:border-[#e2136e] outline-none transition-colors bg-white placeholder-gray-300 font-medium"
+                                placeholder="e.g. 017xxxxxxxx"
                                 value={bkashNumber}
                                 onChange={(e) => setBkashNumber(e.target.value)}
                                 required
@@ -89,25 +120,45 @@ export default function SharedLinkPaymentPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Transaction ID (TrxID)</label>
+                            <label className="block text-gray-700 text-sm font-bold mb-2">Transaction ID (TrxID)</label>
                             <input
                                 type="text"
-                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-pink-500 outline-none"
-                                placeholder="8N7..."
+                                className="w-full text-center text-lg p-3 border-b-2 border-gray-300 focus:border-[#e2136e] outline-none transition-colors bg-white placeholder-gray-300 font-medium uppercase"
+                                placeholder="e.g. 8N7..."
                                 value={trxId}
                                 onChange={(e) => setTrxId(e.target.value)}
                                 required
                             />
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={status === "processing"}
-                            className="w-full bg-pink-600 text-white font-bold py-3 rounded-lg hover:bg-pink-700 transition disabled:opacity-50"
-                        >
-                            {status === "processing" ? "Verifying..." : "Confirm Payment"}
-                        </button>
+                        <div className="pt-4 flex gap-4">
+                            <button
+                                type="button"
+                                onClick={() => router.back()}
+                                className="flex-1 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={status === "processing"}
+                                className="flex-1 bg-[#e2136e] text-white font-bold py-3 rounded shadow-md hover:shadow-lg hover:bg-[#c2105e] transition disabled:opacity-70 flex justify-center items-center"
+                            >
+                                {status === "processing" ? (
+                                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                ) : (
+                                    "Confirm"
+                                )}
+                            </button>
+                        </div>
                     </form>
+                </div>
+
+                {/* Footer */}
+                <div className="bg-[#e2136e] text-white p-4 text-center">
+                    <p className="text-lg font-bold flex items-center justify-center gap-2">
+                        <span className="text-2xl">📞</span> 16247
+                    </p>
                 </div>
             </div>
         </div>
