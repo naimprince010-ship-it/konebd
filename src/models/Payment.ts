@@ -23,6 +23,10 @@ const PaymentSchema = new mongoose.Schema({
         enum: ['pending', 'approved', 'rejected'],
         default: 'pending',
     },
+    sharedLinkToken: {
+        type: String,
+        required: false, // Optional, only for shared link payments
+    },
     date: {
         type: Date,
         default: Date.now,

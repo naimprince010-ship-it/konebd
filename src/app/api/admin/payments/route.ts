@@ -35,12 +35,21 @@ export async function PUT(request: Request) {
             return NextResponse.json({ error: 'Payment not found' }, { status: 404 });
         }
 
-        // If approved, upgrade user
+        // If approved, upgrade user OR unlock shared link
         if (status === 'approved') {
-            await Profile.findOneAndUpdate(
-                { mobile: payment.userMobile },
-                { isPremium: true }
-            );
+            if (payment.sharedLinkToken) {
+                // Unlock Shared Link
+                const link = await import('@/models/SharedLink').then(mod => mod.default.findOneAndUpdate(
+                    { token: payment.sharedLinkToken },
+                    { isPaid: true }
+                ));
+            } else {
+                // Upgrade User Profile (Existing logic)
+                await Profile.findOneAndUpdate(
+                    { mobile: payment.userMobile },
+                    { isPremium: true }
+                );
+            }
         }
 
         return NextResponse.json({ message: `Payment ${status}`, payment });
