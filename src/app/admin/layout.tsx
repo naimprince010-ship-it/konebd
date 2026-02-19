@@ -124,6 +124,19 @@ export default function AdminLayout({
                             Payments
                         </Link>
                     </li>
+                    <li style={{ marginBottom: "1rem" }}>
+                        <Link
+                            href="/admin/settings"
+                            style={{
+                                display: 'block',
+                                color: pathname === "/admin/settings" ? "var(--primary)" : "white",
+                                fontSize: "1.1rem",
+                                textDecoration: "none"
+                            }}
+                        >
+                            Settings
+                        </Link>
+                    </li>
                     <li style={{ marginTop: "2rem", borderTop: "1px solid #374151", paddingTop: "1rem" }}>
                         <Link href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: "1rem", display: "block", marginBottom: "1rem" }}>
                             ← Back to Home
