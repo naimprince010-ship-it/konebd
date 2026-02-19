@@ -57,9 +57,9 @@ export default function SharedLinkPage() {
     };
 
     const handleSubmit = async () => {
-        if (selectedIds.length === 0) return alert('Please select profiles');
+        if (selectedIds.length === 0) return alert('অনুগ্রহ করে প্রোফাইল নির্বাচন করুন');
 
-        const mobile = prompt("Enter your mobile number to contact you:");
+        const mobile = prompt("আপনার মোবাইল নম্বরটি লিখুন যাতে আমরা যোগাযোগ করতে পারি:");
         if (!mobile) return;
 
         setSubmitting(true);
@@ -75,19 +75,19 @@ export default function SharedLinkPage() {
             });
 
             if (res.ok) {
-                alert("Request Submitted! We will contact you.");
+                alert("অনুরোধ জমা হয়েছে! আমরা আপনার সাথে যোগাযোগ করব।");
                 setSelectedIds([]);
             } else {
-                alert("Failed to submit.");
+                alert("জমা দিতে ব্যর্থ হয়েছে।");
             }
         } catch (e) {
-            alert("Error submitting request");
+            alert("অনুরোধ জমা দিতে ত্রুটি হয়েছে");
         } finally {
             setSubmitting(false);
         }
     };
 
-    if (loading) return <div className="text-center p-10">Loading...</div>;
+    if (loading) return <div className="text-center p-10">লোড হচ্ছে...</div>;
     if (error) return <div className="text-center p-10 text-red-500">{error}</div>;
 
     const { profiles, isPaid, freeLimit } = data;
@@ -95,16 +95,16 @@ export default function SharedLinkPage() {
     return (
         <div className="container mx-auto p-4 pb-24 max-w-full overflow-x-hidden">
             <header className="mb-8 text-center max-w-2xl mx-auto">
-                <h1 className="text-2xl font-bold mb-2">Curated Matches</h1>
+                <h1 className="text-2xl font-bold mb-2">বাছাই করা পাত্রী</h1>
                 <p className="text-gray-600">
-                    {isPaid ? 'You have full access to these profiles.' : `${freeLimit} profiles are unlocked. The rest are hidden until unlocked.`}
+                    {isPaid ? 'আপনি এই প্রোফাইলগুলিতে পূর্ণ অ্যাক্সেস পেয়েছেন।' : `${freeLimit} টি প্রোফাইল আনলক করা আছে। বাকিগুলো আনলক না করা পর্যন্ত গোপন থাকবে।`}
                 </p>
                 {!isPaid && (
                     <button
                         onClick={handleUnlock}
                         className="mt-4 bg-pink-600 text-white px-6 py-2 rounded-full font-bold shadow-lg animate-pulse hover:bg-pink-700 transition"
                     >
-                        Unlock All ({profiles.length})
+                        সবগুলো আনলক করুন ({profiles.length})
                     </button>
                 )}
             </header>
@@ -128,7 +128,7 @@ export default function SharedLinkPage() {
                                         {profile.isLocked ? '🔒' : '👤'}
                                     </span>
                                     <span className="font-medium text-sm">
-                                        {profile.isLocked ? 'Image Locked' : 'No Image Available'}
+                                        {profile.isLocked ? 'ছবি লক করা' : 'ছবি নেই'}
                                     </span>
                                 </div>
                             )}
@@ -136,7 +136,7 @@ export default function SharedLinkPage() {
                             {profile.isLocked && (
                                 <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-10">
                                     <button onClick={handleUnlock} className="bg-white/90 text-pink-600 px-4 py-2 rounded-full font-bold shadow-sm hover:bg-white transition">
-                                        Unlock to View
+                                        দেখতে আনলক করুন
                                     </button>
                                 </div>
                             )}
@@ -146,7 +146,7 @@ export default function SharedLinkPage() {
                             <div className="flex justify-between items-start mb-2">
                                 <div>
                                     <h3 className="font-bold text-lg text-gray-900">{profile.id}</h3>
-                                    <p className="text-sm text-gray-500">{profile.age} yrs • {profile.height}</p>
+                                    <p className="text-sm text-gray-500">{profile.age} বছর • {profile.height}</p>
                                 </div>
                                 <input
                                     type="checkbox"
@@ -157,8 +157,8 @@ export default function SharedLinkPage() {
                             </div>
 
                             <div className="text-sm text-gray-700 space-y-1 mt-auto pt-2 border-t border-gray-100">
-                                <p><span className="font-semibold text-gray-500">Education:</span> {profile.education}</p>
-                                <p><span className="font-semibold text-gray-500">District:</span> {profile.district}</p>
+                                <p><span className="font-semibold text-gray-500">শিক্ষা:</span> {profile.education}</p>
+                                <p><span className="font-semibold text-gray-500">জেলা:</span> {profile.district}</p>
                             </div>
                         </div>
                     </div>
@@ -172,7 +172,7 @@ export default function SharedLinkPage() {
                         disabled={submitting || selectedIds.length === 0}
                         className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold text-lg disabled:bg-gray-300 disabled:cursor-not-allowed transition hover:bg-blue-700 shadow-md transform active:scale-[0.98]"
                     >
-                        {submitting ? 'Submitting...' : `Submit Selection (${selectedIds.length})`}
+                        {submitting ? 'জমা হচ্ছে...' : `পছন্দ জমা দিন (${selectedIds.length})`}
                     </button>
                 </div>
             </div>
